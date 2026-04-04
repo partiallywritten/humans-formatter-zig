@@ -30,7 +30,7 @@ export fn WRAPS_timeFormatter(self: ?*py.PyObject, args: ?*py.PyObject) ?*py.PyO
     var buf: [128]u8 = undefined;
     var writer = std.Io.Writer.fixed(&buf);
 
-    timeFormatter(writer, ms, round_val != 0, compound != 0) catch return null;
+    use_Formatters.timeFormatter(writer, ms, round_val != 0, compound != 0) catch return null;
 
     return py.PyUnicode_FromStringAndSize(@ptrCast(&buf), @intCast(writer.end));
 }
@@ -43,7 +43,7 @@ export fn WRAPS_byteFormatter(self: ?*py.PyObject, args: ?*py.PyObject) ?*py.PyO
     var buf: [64]u8 = undefined;
     var writer = std.Io.Writer.fixed(&buf);
     
-    byteFormatter(writer, size) catch return null;
+    use_Formatters.byteFormatter(writer, size) catch return null;
 
     return py.PyUnicode_FromStringAndSize(@ptrCast(&buf), @intCast(writer.end));
 }
