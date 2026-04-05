@@ -1,4 +1,4 @@
-# humans-formatter-zig
+# humans-formatter-py
 Re-implementation of my pypi library, [humans-formatter](https://pypi.org/project/humans-formatter/) in zig.
 
 
@@ -33,7 +33,7 @@ Replace with your python version (`python --version`) and path
 
 ### Performance results
 ```
-=== Benchmark (stable + realistic) ===
+======== Benchmark ========
 
 [humans.time()]
   Runs:        5
@@ -78,5 +78,5 @@ Replace with your python version (`python --version`) and path
 Tested on home server: i3-4130, 2TB HDD on arch linux, python 3.14.3 & zig 0.15.2
 ```
 
-see [test.py](tests/bench.py) and [python implementation](tests/origin.py) for more info.
+see [bench.py](tests/bench.py) and [python implementation](tests/origin.py) for more info.
 Both are optimized and implementations of the same logic

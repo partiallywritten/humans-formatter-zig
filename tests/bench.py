@@ -57,7 +57,7 @@ def bench(fn, args, label):
 # Runner
 # -----------------------------
 def main():
-    print("=== Benchmark (stable + realistic) ===")
+    print("======== Benchmark ========")
 
     # humans
     bench(humans.time, (MS_INPUT, True), "humans.time()")
