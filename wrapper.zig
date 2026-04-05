@@ -2,7 +2,7 @@
 // uses: https://docs.python.org/3/c-api/structures.html#c.PyCFunctionFastWithKeywords
 
 const std = @import("std");
-const use_Formatters = @import("utils.zig");
+const use_Formatters = @import("formatter.zig");
 
 // Supports 3.14+ because i only have that installed as of 2026 Apr. 4
 // however plans to support 3.13+ as it's the lowest I can go since this uses PyCFunctionFastWithKeywords
