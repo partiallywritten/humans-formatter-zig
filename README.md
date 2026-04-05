@@ -28,7 +28,9 @@ print(humans.bytes.__doc__)
 ### Build it
 
 > [!IMPORTANT]
-> This extension requires python 3.13 or newer as it uses [fast calls](https://docs.python.org/3/c-api/structures.html#c.METH_FASTCALL)
+> This extension requires,
+>   - python 3.13 or newer as it uses [fast calls](https://docs.python.org/3/c-api/structures.html#c.METH_FASTCALL)
+>   - zig 0.15.2 (or newer, not tested) as it uses `std.Io.Writer` (see [Writergate update](https://ziglang.org/download/0.15.1/release-notes.html#Writergate))
 
 ```sh
 zig build-lib -dynamic -O ReleaseFast -I /usr/include/python<x.xx> -femit-bin=<path> -lc wraps.zig
@@ -36,6 +38,8 @@ zig build-lib -dynamic -O ReleaseFast -I /usr/include/python<x.xx> -femit-bin=<p
 Replace placeholders with
   - `python<x.xx>` - Your python version (`python --version`). ex: `python3.14`
   - `<path>` - Path to where the `*.so` file needs to be created. ex: `tests/humans.so`
+
+Once you get your `*.so` file, you can just import it in python using `import <filename>` (replace <filename> with whatever the name of your .so file without the extension); Assuming they are both in the same directory
 
 
 ### Performance results
