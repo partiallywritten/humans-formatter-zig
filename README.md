@@ -48,49 +48,47 @@ Up to **6.32x** speed boost on `humans.time()` and Up to **4.43x** speed boost o
   <summary>Click to See detailed results</summary>
   
   ```
-  ======== Benchmark ========
-  
-  [humans.time()]
-    Runs:        5
-    Iterations:  3,000,000
-    Mean total:  0.377207 sec
-    Best total:  0.374318 sec
-    Std dev:     0.003188 sec
-    Mean/op:     125.74 ns
-    Best/op:     124.77 ns
-  
-  [humans.bytes()]
-    Runs:        5
-    Iterations:  3,000,000
-    Mean total:  0.603314 sec
-    Best total:  0.596138 sec
-    Std dev:     0.009020 sec
-    Mean/op:     201.10 ns
-    Best/op:     198.71 ns
-  
-  [origin.time()]
-    Runs:        5
-    Iterations:  3,000,000
-    Mean total:  2.383333 sec
-    Best total:  2.332734 sec
-    Std dev:     0.039932 sec
-    Mean/op:     794.44 ns
-    Best/op:     777.58 ns
-  
-  [origin.bytes()]
-    Runs:        5
-    Iterations:  3,000,000
-    Mean total:  2.673346 sec
-    Best total:  2.658478 sec
-    Std dev:     0.010153 sec
-    Mean/op:     891.12 ns
-    Best/op:     886.16 ns
+ ======== Benchmark ========
 
-  [Sample Outputs]
-    humans.time: 1h 1m 1s
-    humans.bytes: 1.00 GiB
-   
-  Tested on home server: i3-4130, 2TB HDD on arch linux, python 3.14.3 & zig 0.15.2
+ [humans.time()]
+   Runs:        5
+   Iterations:  3,000,000
+   Mean total:  0.360692 sec
+   Best total:  0.354795 sec
+   Std dev:     0.007005 sec
+   Mean/op:     120.23 ns
+   Best/op:     118.26 ns
+
+ [humans.bytes()]
+   Runs:        5
+   Iterations:  3,000,000
+   Mean total:  0.399735 sec
+   Best total:  0.387777 sec
+   Std dev:     0.014533 sec
+   Mean/op:     133.24 ns
+   Best/op:     129.26 ns
+
+ [origin.time()]
+   Runs:        5
+   Iterations:  3,000,000
+   Mean total:  2.349150 sec
+   Best total:  2.336186 sec
+   Std dev:     0.007540 sec
+   Mean/op:     783.05 ns
+   Best/op:     778.73 ns
+
+ [origin.bytes()]
+   Runs:        5
+   Iterations:  3,000,000
+   Mean total:  2.561663 sec
+   Best total:  2.557630 sec
+   Std dev:     0.003903 sec
+   Mean/op:     853.89 ns
+   Best/op:     852.54 ns
+
+ [Sample Outputs]
+   humans.time: 1h 1m 1s
+   humans.bytes: 1.00 GiB
   ```
 </details>
 

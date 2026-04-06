@@ -1,5 +1,5 @@
-// to be used in https://pypi.org/project/humans-formatter/
-
+// Copyright (c) Hirusha Himath 2026
+// MIT License
 const std = @import("std");
 
 
@@ -100,19 +100,33 @@ pub fn byteFormatter(zWriter: anytype, SIZE: i64) !void {
     }
     
     const units = [_][]const u8{"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB"};
-    var uindx: usize = 0;
+    var index: usize = 0;
     
     const is_negative: bool = SIZE < 0;
-    const casted_size: u64 = if (is_negative) (~@as(u64, @bitCast(SIZE)) + 1) else @intCast(SIZE);
-    var size_fcast: f64 = @floatFromInt(casted_size);
+    var casted_size: u128 = if (is_negative) (~@as(u64, @bitCast(SIZE)) + 1) else @intCast(SIZE);
+    var rem: u16 = 0;
     
-    while (size_fcast >= 1024.0 and uindx < units.len - 1) {
-        size_fcast /= 1024.0;
-        uindx += 1;
-    }
+    while ( casted_size >= 1024 and index < units.len - 1 ) {
+		rem = @intCast(casted_size & 1023); // take bits at 0-9
+		casted_size = casted_size >> 10; // shift right by 10
+		index += 1;
+	}
     
     if (is_negative) try zWriter.writeByte('-');
     
-    if (uindx == 0) { try zWriter.print("{d:.0} {s}", .{ size_fcast, units[uindx] }); }
-    else { try zWriter.print("{d:.2} {s}", .{ size_fcast, units[uindx] }); }
+    if (index == 0) { try zWriter.print("{d} {s}", .{ casted_size, units[index] }); }
+    else {
+		// how many % = rem / 10.24
+		// so instead of div by 10.24, (rem * 100) / 1024
+		// but we round up so ((rem * 100) + 512) / 1024
+		const frac: u32 = ((@as(u32, rem) * 100) + 512) / 1024;
+		try zWriter.print(
+			// [1]d:0>2 -> argument at position 1 is of specifier d:
+			//             with width of 2 and if arg is shorter than width, pad left with '0' thereby aligning the arg to the right
+			//
+			// also see: https://ziglang.org/documentation/0.15.2/std/#std.Io.Writer.print
+			"{[0]d}.{[1]d:0>2} {[2]s}",
+			.{ casted_size, frac, units[index] }
+		);
+	}
 }

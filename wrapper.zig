@@ -1,3 +1,5 @@
+// Copyright (c) Hirusha Himath 2026
+// MIT License
 // c wraps
 // uses: https://docs.python.org/3/c-api/structures.html#c.PyCFunctionFastWithKeywords
 
