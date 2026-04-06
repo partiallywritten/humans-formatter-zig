@@ -43,7 +43,7 @@ Once you get your `*.so` file, you can just import it in python using `import <f
 
 
 ### Performance results
-Up to **6.32x** speed boost on `humans.time()` and Up to **4.43x** speed boost on `humans.bytes()` compared their python counterparts
+Up to **6.5x** speed boost on `humans.time()` and Up to **6.4x** speed boost on `humans.bytes()` compared their python counterparts
 <details>
   <summary>Click to See detailed results</summary>
   
