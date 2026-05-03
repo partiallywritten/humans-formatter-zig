@@ -7,9 +7,9 @@ Re-implementation of my pypi library, [humans-formatter](https://pypi.org/projec
 import humans
 
 # time formatting
-# time(ms: int, compound: bool = False, round: bool = False)
+# time(ms: int, compound: bool = True, round: bool = False)
 # 	- Format milliseconds into human readable form. Use only one argument except 'ms' at a time
-print(humans.time(<time-in-ms>, compound=True)
+print(humans.time(<time-in-ms>)
 
 
 # byte formatting

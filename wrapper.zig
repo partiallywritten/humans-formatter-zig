@@ -56,7 +56,7 @@ export fn WRAPS_timeFormatter(self: ?*py.PyObject, args: [*c]const ?*py.PyObject
 				if (ms_there) { py.PyErr_SetString(py.PyExc_TypeError, "Multiple values for argument 'ms'"); return null; }
 				
 				ms = py.PyLong_AsLongLong(value);
-				if (py.PyErr_Occurred() != null) return null;
+				if (ms == -1 and py.PyErr_Occurred() != null) return null;
 				
 				ms_there = true;
 			}
@@ -132,7 +132,7 @@ const HUMANS_METHODS = [_]py.PyMethodDef{
         .ml_name = "time",
         .ml_meth = @ptrCast(&WRAPS_timeFormatter),
         .ml_flags = py.METH_FASTCALL | py.METH_KEYWORDS,
-        .ml_doc = "time(ms: int, compound: bool = False, round: bool = False)\nFormat milliseconds into human readable form. Use only one argument except 'ms' at a time",
+        .ml_doc = "time(ms: int, compound: bool = True, round: bool = False)\nFormat milliseconds into human readable form. Use only one argument except 'ms' at a time",
     },
     .{
         .ml_name = "bytes",
