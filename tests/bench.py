@@ -60,7 +60,7 @@ def main():
     print("======== Benchmark ========")
 
     # humans
-    bench(humans.time, (MS_INPUT, True), "humans.time()")
+    bench(humans.time, (MS_INPUT,), "humans.time()")
     bench(humans.bytes, (BYTE_INPUT,), "humans.bytes()")
 
     # origin (adjust args if needed!)

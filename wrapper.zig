@@ -24,7 +24,8 @@ export fn WRAPS_timeFormatter(self: ?*py.PyObject, args: [*c]const ?*py.PyObject
 	// defaults
 	var ms: i64 = 0;
 	var round: bool = false;
-	var compound: bool = false;
+	var compound: bool = true;
+	var cct_err_cd: c_int = 0;
 	
 	//---------------------------- MANUAL PARSING START ----------------------------///
 	// will break down to a separate module in the future if time allows
@@ -34,9 +35,9 @@ export fn WRAPS_timeFormatter(self: ?*py.PyObject, args: [*c]const ?*py.PyObject
 	var compound_there = false;
 	
 	// postional args parsing
-	if (nargs > 0) { ms = py.PyLong_AsLongLong(args[0]); if (py.PyErr_Occurred() != null) return null; ms_there = true; }
-	if (nargs > 1) { compound = py.PyObject_IsTrue(args[1]) == 1; if (py.PyErr_Occurred() != null) return null; compound_there = true; }
-	if (nargs > 2) { round = py.PyObject_IsTrue(args[2]) == 1; if (py.PyErr_Occurred() != null) return null; round_there = true; }
+	if (nargs > 0) { ms = py.PyLong_AsLongLong(args[0]); if (ms == -1 and py.PyErr_Occurred() != null) return null; ms_there = true; }
+	if (nargs > 1) { cct_err_cd = py.PyObject_IsTrue(args[1]); if (cct_err_cd == -1) return null; compound = cct_err_cd == 1; compound_there = true; }
+	if (nargs > 2) { cct_err_cd = py.PyObject_IsTrue(args[2]); if (cct_err_cd == -1) return null; round = cct_err_cd == 1; round_there = true; }
 	
 	// keyword args parsing
 	if (kwnames != null) {
@@ -52,24 +53,29 @@ export fn WRAPS_timeFormatter(self: ?*py.PyObject, args: [*c]const ?*py.PyObject
 			const value = args[@intCast(nargs + i)]; // in fast call layout is [positional..., keyword_values...]
 			
 			if (py.PyUnicode_CompareWithASCIIString(key, "ms") == 0) {
+				if (ms_there) { py.PyErr_SetString(py.PyExc_TypeError, "Multiple values for argument 'ms'"); return null; }
+				
 				ms = py.PyLong_AsLongLong(value);
 				if (py.PyErr_Occurred() != null) return null;
 				
-				if (ms_there) { py.PyErr_SetString(py.PyExc_TypeError, "Multiple values for argument 'ms'"); return null; }
 				ms_there = true;
 			}
 			else if (py.PyUnicode_CompareWithASCIIString(key, "compound") == 0) {
-				compound = py.PyObject_IsTrue(value) == 1;
-				if (py.PyErr_Occurred() != null) return null;
-				
 				if (compound_there) { py.PyErr_SetString(py.PyExc_TypeError, "Multiple values for argument 'compound'"); return null; }
+				
+				cct_err_cd = py.PyObject_IsTrue(value);
+				if (cct_err_cd == -1) return null;
+				
+				compound = cct_err_cd == 1;
 				compound_there = true;
 			}
 			else if (py.PyUnicode_CompareWithASCIIString(key, "round") == 0) {
-				round = py.PyObject_IsTrue(value) == 1;
-				if (py.PyErr_Occurred() != null) return null;
-				
 				if (round_there) { py.PyErr_SetString(py.PyExc_TypeError, "Multiple values for argument 'round'"); return null; }
+				
+				cct_err_cd = py.PyObject_IsTrue(value);
+				if (cct_err_cd == -1) return null;
+				
+				round = cct_err_cd == 1;
 				round_there = true;
 			}
 			else { _ = py.PyErr_Format(py.PyExc_TypeError, "Unexpected keyword argument '%U'", key); return null; }
@@ -103,7 +109,7 @@ export fn WRAPS_byteFormatter(self: ?*py.PyObject, args: [*c]const ?*py.PyObject
 	// py._PyArg_ParseStackAndKeywords could've been used but it's an internal api
 	
 	// postional args parsing
-	if (nargs > 0) { size = py.PyLong_AsLongLong(args[0]); if (py.PyErr_Occurred() != null) return null; }
+	if (nargs > 0) { size = py.PyLong_AsLongLong(args[0]); if (size == -1) return null; }
 	
 	//---------------------------- MANUAL PARSING END ----------------------------///
 	
@@ -152,3 +158,4 @@ export var humansmodule = py.PyModuleDef{
 pub export fn PyInit_humans() ?*py.PyObject {
     return py.PyModule_Create(&humansmodule);
 }
+
